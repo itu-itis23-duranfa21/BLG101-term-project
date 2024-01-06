@@ -63,3 +63,7 @@ button {
 button:hover {
     background-color: #006400;
 }
+
+#go-to-main-page {
+    margin-top: 60px;
+}

@@ -51,6 +51,8 @@
         <img id="i" src="i.png" alt="i" onclick="cardClick('i')">
         <img id="h" src="h.png" alt="h" onclick="cardClick('h')">
     </div>
+    <!-- Go to Main Page Button -->
+    <button id="go-to-main-page" onclick="goToMainPage()">Go to Main Page</button>
     <script>
         let sequence = ['f', 'a', 't', 'i', 'h'];
         let currentStep = 0;
@@ -176,6 +178,11 @@
             } else {
                 alert("Game Over! You clicked an incorrect card. Your score this game was: " + session_score);
             }
+        }
+
+        // Function to redirect to the main page
+        function goToMainPage() {
+            window.location.href = "index.html";
         }
 
     </script>
