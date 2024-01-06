@@ -1,0 +1,184 @@
+<!--
+    Fatih Said Duran - 150210733
+
+   TODO:
+    Game Objective:
+    Create a memory game where players click on cards, containing letter images, in the sequence of the letters 'FATIH'.
+    - Initial Setup:
+        o Design vector images for each letter of 'FATIH'
+        o Initially, display these images face up on the page.
+        o After the player presses the 'Start Game' button, shuffle and randomly distribute the cards.
+        o After 2 seconds turn them face down to start the game.
+    - Game Play:
+        o The player must click the cards in the correct order of the letters.
+        Correctly following the sequence earns the player 100 points.
+        Example: The player should first click the card for 'F', then
+        'A', followed by 'T', 'I', and finally 'H'.
+    - Scoring and Game Termination:
+        o Display the player's score on the page, starting at zero. Give 20 points for each correct attempt.
+        o The game ends if the player makes a wrong attempt (e.g., clicking 'T' after 'F' for 'FATIH').
+    - Game Interface:
+        o Include a score display on the page.
+        o Provide a 'Start Game' button to begin the memory game.
+        o Also add a 'Restart' button to play the game again.
+        o Add a button to go back to the main page.
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memory Game</title>
+    <!-- Linking External CSS rules start here-->
+    <link rel = "stylesheet" type="text/css" href="game_page.css"/>
+    <!-- Linking External CSS rules end here-->
+</head>
+
+<body>
+    <h1>Memory Game</h1>
+    <p>Click the cards in the correct order of the letters 'FATIH'.</p>
+    <p>Correctly following the sequence earns you 100 points.</p>
+    <p>Click the 'Start Game' button to begin.</p>
+    <p>Click the 'Restart' button to play again.</p>
+    <p id="score">Score: 0</p>
+    <button id="start-game" onclick="startGame()">Start Game</button>
+    <button id="restart" onclick="restartGame()">Restart</button>
+    <div id="cards">
+        <img id="f" src="f.png" alt="f" onclick="cardClick('f')">
+        <img id="a" src="a.png" alt="a" onclick="cardClick('a')">
+        <img id="t" src="t.png" alt="t" onclick="cardClick('t')">
+        <img id="i" src="i.png" alt="i" onclick="cardClick('i')">
+        <img id="h" src="h.png" alt="h" onclick="cardClick('h')">
+    </div>
+    <script>
+        let sequence = ['f', 'a', 't', 'i', 'h'];
+        let currentStep = 0;
+        let score = 0;
+        let session_score = 0;
+        let gameActive = false;
+
+        function startGame() {
+            // Check if the game is already active and ready to start
+            if (!gameActive) {
+                // Disable the game until the cards are turned face down
+                gameActive = false;
+
+                // Get the container element
+                let cardsContainer = document.getElementById("cards");
+
+                // Get all the card elements
+                let cards = cardsContainer.children;
+
+                // Convert the HTMLCollection to an array for easy manipulation
+                let cardsArray = Array.from(cards);
+
+                // Shuffle the cards
+                cardsArray.sort(() => Math.random() - 0.5);
+
+                // Append the shuffled cards back to the container
+                cardsArray.forEach(card => cardsContainer.appendChild(card));
+
+                // Display the cards face up
+                cardsArray.forEach(card => {
+                    // Get the card id
+                    let cardId = card.id;
+
+                    // Set the card image
+                    card.src = cardId + ".png"; // Replace with the path to your card images
+
+                    // Set the alt text
+                    card.alt = cardId; // Set alt text to the corresponding letter
+                });
+
+                // Turn the cards face down after 2 seconds
+                setTimeout(() => {
+                    cardsArray.forEach(card => {
+                        // Replace the image source with a blank image
+                        card.src = "card.png"; // Replace with the path to your blank image
+                        card.alt = ""; // Remove alt text
+                    });
+                    // Start the game after turning cards face down
+                    gameActive = true;
+                }, 2000);
+
+
+                // Reset game variables
+                currentStep = 0;
+                session_score = 0;
+                // score = 0;
+                // updateScore();
+            }
+            else {
+                alert("Game is already active.");
+            }
+        }
+
+        function restartGame() {
+            // Reset the game variables
+            gameActive = false;
+
+            // Restore the original order of the cards
+            let originalOrder = ["f", "a", "t", "i", "h"];
+            let cardsContainer = document.getElementById("cards");
+
+            originalOrder.forEach(id => {
+                let card = document.getElementById(id);
+                card.src = id + ".png"; // Replace with the path to your card images
+                card.alt = id; // Set alt text to the corresponding letter
+                cardsContainer.appendChild(card);
+            });
+
+            // Reset the score
+            score = 0;
+            updateScore();
+
+        }
+
+        function cardClick(letter) {
+
+            // Check if the game is active
+            if (!gameActive) {
+                alert("The game has not started yet. Click the 'Start Game' button.");
+                return;
+            }
+            else {
+                // Check if the clicked card is the correct one
+                if (letter === sequence[currentStep]) {
+                    // Correct card clicked
+                    currentStep++;
+                    score += 20;
+                    session_score += 20;
+                    updateScore();
+
+                    if (currentStep === sequence.length) {
+                        // Player completed the sequence
+                        endGame(true); // Player won
+                        currentStep = 0;
+                    }
+                } else {
+                    // Incorrect card clicked, reset the sequence
+                    endGame(false); // Player lost
+                    currentStep = 0;
+
+                }
+            }
+        }
+
+        function updateScore() {
+            document.getElementById("score").innerText = "Score: " + score;
+        }
+
+        function endGame(won) {
+            gameActive = false;
+            if (won) {
+                alert("Congratulations! You won. Your score this game was: " + session_score);
+            } else {
+                alert("Game Over! You clicked an incorrect card. Your score this game was: " + session_score);
+            }
+        }
+
+    </script>
+</body>
+
+
