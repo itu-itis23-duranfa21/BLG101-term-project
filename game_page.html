@@ -45,11 +45,11 @@
     <button id="start-game" onclick="startGame()">Start Game</button>
     <button id="restart" onclick="restartGame()">Restart</button>
     <div id="cards">
-        <img id="f" src="f.png" alt="f" onclick="cardClick('f')">
-        <img id="a" src="a.png" alt="a" onclick="cardClick('a')">
-        <img id="t" src="t.png" alt="t" onclick="cardClick('t')">
-        <img id="i" src="i.png" alt="i" onclick="cardClick('i')">
-        <img id="h" src="h.png" alt="h" onclick="cardClick('h')">
+        <img id="f" src="f.svg" alt="f.svg" onclick="cardClick('f')">
+        <img id="a" src="a.svg" alt="a" onclick="cardClick('a')">
+        <img id="t" src="t.svg" alt="t" onclick="cardClick('t')">
+        <img id="i" src="i.svg" alt="i" onclick="cardClick('i')">
+        <img id="h" src="h.svg" alt="h" onclick="cardClick('h')">
     </div>
     <!-- Go to Main Page Button -->
     <button id="go-to-main-page" onclick="goToMainPage()">Go to Main Page</button>
@@ -87,7 +87,7 @@
                     let cardId = card.id;
 
                     // Set the card image
-                    card.src = cardId + ".png"; // Replace with the path to your card images
+                    card.src = cardId + ".svg"; // Replace with the path to your card images
 
                     // Set the alt text
                     card.alt = cardId; // Set alt text to the corresponding letter
@@ -97,7 +97,7 @@
                 setTimeout(() => {
                     cardsArray.forEach(card => {
                         // Replace the image source with a blank image
-                        card.src = "card.png"; // Replace with the path to your blank image
+                        card.src = "card.svg"; // Replace with the path to your blank image
                         card.alt = ""; // Remove alt text
                     });
                     // Start the game after turning cards face down
@@ -126,7 +126,7 @@
 
             originalOrder.forEach(id => {
                 let card = document.getElementById(id);
-                card.src = id + ".png"; // Replace with the path to your card images
+                card.src = id + ".svg"; // Replace with the path to your card images
                 card.alt = id; // Set alt text to the corresponding letter
                 cardsContainer.appendChild(card);
             });
